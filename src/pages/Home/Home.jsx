@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Flex } from 'antd';
-import MainLayout from '../layout/MainLayout';
+import MainLayout from '../../layout/MainLayout';
 import { useNavigate } from 'react-router-dom';
 
 

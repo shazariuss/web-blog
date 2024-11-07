@@ -1,17 +1,18 @@
-import React, { Children } from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import {  NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Layout, Menu, theme } from 'antd';
+import {  Link } from 'react-router-dom';
+import styles from './MainLayout.module.scss'
 
 const { Header, Content, Footer } = Layout;
 
 const items = [
   {
-    label: <NavLink to='/about'>About</NavLink>,
-    key: 'about',
+    label: <Link to='/about' className={styles.link}>About</Link>,
+    key: '/about',
   },
   {
-    label: <NavLink to='/blog'>Blog</NavLink>,
-    key: 'blog',
+    label: <Link to='/blog' className={styles.link}>Blog</Link>,
+    key: '/blog',
   },
   
 ];
@@ -20,73 +21,48 @@ const MainLayout = ({children}) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const [currentPath,setCurrentPath] = useState("")
+
+
+  useEffect(() => {
+    setCurrentPath(location.pathname + location.search)
+  }, [location.pathname])
+
   
   return (
     <Layout
-      style={{
-        maxWidth:'1020px',
-        minHeight: '100vh', 
-        margin:'0 auto',
-        display: 'flex',
-        flexDirection: 'column', 
-        backgroundColor:'#fff'
-      }}
+      className={styles.layout}
     >
       <Header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent:'space-between',
-          backgroundColor:'#fff',
-          marginBottom:'20px',
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          width: '100%',
-        }}
+        className={styles.header}
       >
         <div>
-          <NavLink to='/' style={{color:'#000'}}><h1>Salimov's Blog</h1></NavLink>
+          <Link to='/' style={{color:'#000'}}><h1>Salimov's Blog</h1></Link>
         </div>
         <Menu
-          style={{
-          backgroundColor:'#fff',
-          }}
+          className={styles.menu}
           mode="horizontal"
           disabledOverflow={true}
           items={items}
+          selectedKeys={currentPath}
         />
       </Header>
 
       <Content
-        style={{
-          padding: '0 48px',
-          background: '#fff',
-          flex: 1, 
-        }}
+        className={styles.content}
       >
         <div
-          style={{
-            boxShadow:'2px 2px 50px rgba(0,0,0,0.05)',
-            background: '#fff',
-            minHeight: '100%',
-            padding: 24,
-            borderRadius: borderRadiusLG,
-          }}
+          className={styles.insideContent}
         >
             {children}
         </div>
       </Content>
 
       <Footer
-        style={{
-          textAlign: 'center',
-          maxHeight:'200px',
-          overflow:'hidden',
-          backgroundColor:'#fff'
-        }}
+        className={styles.footer}
       >
-        Ant Design ©{new Date().getFullYear()} Created by Ant UED
+         © {new Date().getFullYear()} shazarius.uz
       </Footer>
     </Layout>
   );
